@@ -1,6 +1,6 @@
 export interface Player {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  PlayerId: number;
+  Name: string;
+  TotalScore: number;
+  GamesPlayed: number;
 }
