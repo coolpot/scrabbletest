@@ -32,13 +32,12 @@ export class PlayerTableComponent implements OnInit {
         ...p,
         ...games.find((g) => g.PlayerId === p.PlayerId),
       }));
-      console.log(this.playerDataArray);
       this.dataSource = new MatTableDataSource(this.playerDataArray);
       this.dataSource.sort = this.sort; 
+
+      console.log(this.dataSource, 'ds');
+      console.log(this.dataSource.sort, 'sort');
     });
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
 }
