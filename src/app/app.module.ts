@@ -10,7 +10,7 @@ import { BasicCardComponent } from './basic-card/basic-card.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { MatButtonModule } from '@angular/material/button';
     HttpClientModule,
     MatTableModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import * as PLAYERDATA from './players.json';
 
 @Injectable({
@@ -12,19 +11,10 @@ export class PlayerDataService {
 
   constructor(private http: HttpClient) { }
 
-  // getPlayers(): any {
-  //   return of(PLAYERDATA).pipe(delay(500));
-  // }
-
-  // getGamesData(): Observable<any> {
-  //   return this.http.get(this.apiUrl);
-  // }
-
   getCombinedPlayerData(): Observable<any[]> {
-    const playerData = of(PLAYERDATA).pipe(delay(500));
-    const gamesData = this.http.get(this.apiUrl);
-    const combined =  forkJoin([playerData, gamesData]);
-    return combined;
+    const playerData = of(PLAYERDATA);
+    const gameData = this.http.get(this.apiUrl);
+    return forkJoin([playerData, gameData]);
   }
 
 }

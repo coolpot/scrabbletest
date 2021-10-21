@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { PlayerDataService } from '../player-data.service';
 import { Player } from '../player.model';
-import { combineLatest, forkJoin } from 'rxjs';
+import {MatTableDataSource} from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-player-table',
@@ -9,21 +10,32 @@ import { combineLatest, forkJoin } from 'rxjs';
   styleUrls: ['./player-table.component.scss']
 })
 
-export class PlayerTableComponent implements OnInit {
+export class PlayerTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['PlayerId', 'Name', 'GamesPlayed', 'TotalScore'];
-  playerTableData: Player[] = [];
+  dataSource = new MatTableDataSource<Player>();
   
-  constructor(private playerDataService: PlayerDataService) { }
+  playerData = [];
+  gameData = [];
 
+  constructor(private playerDataService: PlayerDataService) { }
+  @ViewChild(MatSort, { static: false}) sort: MatSort;
+
+
+  
   ngOnInit(): void {
-    // I feel There's better ways of doing this!
     this.playerDataService.getCombinedPlayerData().subscribe(res => {
       const players = res[0].Players;
-      const results = res[1].Results;
-      const combinedData = players.map((item, i) => Object.assign({}, item, results[i]));
-      this.playerTableData = combinedData;
-      console.log(this.playerTableData);
+      const games = res[1].Results;
+      console.log(players, games);
+      const playerDataArray = players.map(p => ({ ...p, ...games.find(g => g.PlayerId === p.PlayerId) }));
+      this.dataSource = playerDataArray;
     });
+    
+
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
 }
