@@ -32,7 +32,12 @@ export class PlayerTableComponent implements OnInit {
         ...games.find((g) => g.PlayerId === p.PlayerId),
       }));
       this.playerDataArray.sort((a,b) => (b.TotalScore - a.TotalScore));
-      const newArray: Player[] = this.playerDataArray.map((item, idx) => ({...item, orderBy: idx + 1}));
+      const newArray: Player[] = this.playerDataArray.map((item, idx) => (
+        {
+          ...item,
+          orderBy: idx + 1
+        }
+      ));
       this.dataSource = new MatTableDataSource(newArray);
       this.dataSource.sort = this.sort;
     });
