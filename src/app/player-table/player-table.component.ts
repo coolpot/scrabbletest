@@ -11,7 +11,7 @@ import { MatSort } from '@angular/material/sort';
 })
 export class PlayerTableComponent implements OnInit {
   displayedColumns: string[] = [
-    'PlayerId',
+    'orderBy',
     'Name',
     'GamesPlayed',
     'TotalScore',
@@ -32,11 +32,10 @@ export class PlayerTableComponent implements OnInit {
         ...p,
         ...games.find((g) => g.PlayerId === p.PlayerId),
       }));
-      this.dataSource = new MatTableDataSource(this.playerDataArray);
-      this.dataSource.sort = this.sort; 
-
-      console.log(this.dataSource, 'ds');
-      console.log(this.dataSource.sort, 'sort');
+      this.playerDataArray.sort((a,b) => (b.TotalScore - a.TotalScore));
+      const newArray = this.playerDataArray.map((item, idx) => ({...item, orderBy: idx + 1}));
+      this.dataSource = new MatTableDataSource(newArray);
+      this.dataSource.sort = this.sort;
     });
   }
 
