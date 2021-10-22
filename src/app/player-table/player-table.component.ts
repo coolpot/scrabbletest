@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PlayerDataService } from '../player-data.service';
 import { Player } from '../player.model';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,17 +27,20 @@ export class PlayerTableComponent implements OnInit {
     this.playerDataService.getCombinedPlayerData().subscribe((res) => {
       const players = res[0].Players;
       const games = res[1].Results;
-      this.playerDataArray = players.map((p) => ({
+      this.playerDataArray = players.map((p, idx) => ({
         ...p,
         ...games.find((g) => g.PlayerId === p.PlayerId),
       }));
+
       this.playerDataArray.sort((a,b) => (b.TotalScore - a.TotalScore));
       const newArray: Player[] = this.playerDataArray.map((item, idx) => (
         {
           ...item,
-          orderBy: idx + 1
+          orderBy: idx + 1,
+          player: `${item.Name} ${item.TotalScore} ${idx}`
         }
       ));
+      console.log(newArray);
       this.dataSource = new MatTableDataSource(newArray);
       this.dataSource.sort = this.sort;
     });
