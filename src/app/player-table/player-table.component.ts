@@ -3,6 +3,7 @@ import { PlayerDataService } from '../player-data.service';
 import { Player } from '../player.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-player-table',
@@ -17,9 +18,7 @@ export class PlayerTableComponent implements OnInit {
     'TotalScore',
   ];
   @ViewChild(MatSort) sort: MatSort;
-  playerData = [];
-  gameData = [];
-  playerDataArray = [];
+  playerDataArray: Player[] = [];
   dataSource;
 
   constructor(private playerDataService: PlayerDataService) {}
@@ -33,7 +32,7 @@ export class PlayerTableComponent implements OnInit {
         ...games.find((g) => g.PlayerId === p.PlayerId),
       }));
       this.playerDataArray.sort((a,b) => (b.TotalScore - a.TotalScore));
-      const newArray = this.playerDataArray.map((item, idx) => ({...item, orderBy: idx + 1}));
+      const newArray: Player[] = this.playerDataArray.map((item, idx) => ({...item, orderBy: idx + 1}));
       this.dataSource = new MatTableDataSource(newArray);
       this.dataSource.sort = this.sort;
     });

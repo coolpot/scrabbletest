@@ -1,7 +1,7 @@
 <table mat-table [dataSource]="dataSource" matSort  matSortActive="TotalScore" matSortDirection="desc" class="mat-elevation-z8">
     <ng-container matColumnDef="orderBy">
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Position"> Position </th>
-      <td mat-cell *matCellDef="let element"> {{element.orderBy}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.orderBy}} <span class="cupIcon" *ngIf="element.orderBy <= 3"><i class="fa-solid fa-trophy" [ngClass]="{'p1' : element.orderBy === 1, 'p2' : element.orderBy === 2, 'p3' : element.orderBy === 3}"></i></span></td>
     </ng-container>
 
     <ng-container matColumnDef="Name">
